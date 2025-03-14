@@ -192,7 +192,7 @@ publishing {
 
 publishMods {
 	file = remapJar.archiveFile
-	version = displayName = "${mcVersion}-${project.version}"
+	version = displayName = "${mcVersion}-Endless-${project.version}"
 	changelog = file("changelog.md").text
 	type = BETA
 	modLoaders.add("forge")
