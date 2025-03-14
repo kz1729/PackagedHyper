@@ -1,0 +1,14 @@
+{
+	"name": "PackagedAvaritia",
+	"category": "packagedauto:recipe",
+	"icon": "packagedavaritia:extreme_crafter",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "$(#822)PackagedAvaritia/$ adds recipe types for $(#822)Avaritia/$ recipes to $(#822)PackagedAuto/$."
+		}
+	],
+	"read_by_default": true,
+	"sortnum": 1500,
+	"entry_color": "882222"
+}
