@@ -70,19 +70,19 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.16.5"
+def mcVersion = "1.18.2"
 def modName = "PackagedAvaritia-Universal"
 def modId = "packagedavaritia"
 def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedavaritia"
-version = "2.N.0.0"
+version = "2.0.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(8)
+	toolchain.languageVersion = JavaLanguageVersion.of(17)
 	withSourcesJar()
 }
 
@@ -107,35 +107,30 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-core:2.24.1"
 
 	// Minecraft
-	minecraft "com.mojang:minecraft:1.16.5"
+	minecraft "com.mojang:minecraft:1.18.2"
 	mappings loom.layered {
-		mappings("de.oceanlabs.mcp:mcp_config:1.16.5-20210115.111550@zip") {
-			mappingPath "config/joined.tsrg"
-			fallbackNamespaces "official", "named"
-			mergeNamespace "official"
-		}
-		officialMojangMappings {
-			skipClassNames = true
-		}
-		parchment "org.parchmentmc.data:parchment-1.16.5:2022.03.06@zip"
+		officialMojangMappings()
+		parchment "org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip"
 	}
-	forge "net.minecraftforge:forge:1.16.5-36.2.42"
+	forge "net.minecraftforge:forge:1.18.2-40.2.21"
 
 	// Dependencies
-	modImplementation "thelm.packagedauto:PackagedAuto-1.16.5:2.0.11.48"
-	modImplementation "curse.maven:avaritia-universal-891434:5506581"
-	modImplementation "mezz.jei:jei-1.16.5:7.8.0.1013"
-	modImplementation "appeng:appliedenergistics2:8.4.7"
-	modImplementation "vazkii.patchouli:Patchouli:1.16.4-53.3"
+	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.14.55"
+	modImplementation "curse.maven:avaritia-universal-891434:5506588"
+	modImplementation("mezz.jei:jei-1.18.2-forge:10.2.1.1009") {transitive = false}
+	modImplementation "appeng:appliedenergistics2-forge:11.7.6"
+	modImplementation "vazkii.patchouli:Patchouli:1.18.2-71.1"
 
 	// Testing
-	modImplementation "mekanism:Mekanism:1.16.5-10.1.2.457"
+	modImplementation "mekanism:Mekanism:1.18.2-10.2.5.465"
+	modImplementation "curse.maven:applied-mekanistics-574300:3968835"
 
 	// Performance
-	modImplementation "curse.maven:shutup-experimental-settings-407174:3188120"
-	modImplementation "curse.maven:modernfix-790626:5399356"
-	modImplementation "curse.maven:ferritecore-429235:3435176"
-	modImplementation "curse.maven:lazy-dfu-forge-460819:3249059"
+	modImplementation "curse.maven:yeetusexperimentus-635427:4377180"
+	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
+	modImplementation "curse.maven:modernfix-790626:5399365"
+	modImplementation "curse.maven:ferritecore-429235:4074294"
+	modImplementation "curse.maven:lazy-dfu-forge-460819:3544496"
 }
 
 def replacements = [
@@ -194,7 +189,7 @@ publishMods {
 	file = remapJar.archiveFile
 	version = displayName = "${mcVersion}-Universal-${project.version}"
 	changelog = file("changelog.md").text
-	type = BETA
+	type = STABLE
 	modLoaders.add("forge")
 	additionalFiles.from(sourcesJar.archiveFile)
 

@@ -1,8 +1,6 @@
 package thelm.packagedavaritia.recipe;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 import avaritia.block.ModBlocks;
@@ -10,24 +8,24 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntRBTreeSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import thelm.packagedauto.api.IGuiIngredientWrapper;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import thelm.packagedauto.api.IPackageRecipeInfo;
 import thelm.packagedauto.api.IPackageRecipeType;
-import thelm.packagedauto.api.IRecipeLayoutWrapper;
+import thelm.packagedauto.api.IRecipeSlotViewWrapper;
+import thelm.packagedauto.api.IRecipeSlotsViewWrapper;
 
 public class ExtremePackageRecipeType implements IPackageRecipeType {
 
 	public static final ExtremePackageRecipeType INSTANCE = new ExtremePackageRecipeType();
 	public static final ResourceLocation NAME = new ResourceLocation("packagedavaritia:extreme");
 	public static final IntSet SLOTS;
-	public static final List<ResourceLocation> CATEGORIES = Collections.singletonList(new ResourceLocation("avaritia:extreme_crafting"));
-	public static final Vector3i COLOR = new Vector3i(139, 139, 139);
-	public static final Vector3i COLOR_DISABLED = new Vector3i(64, 64, 64);
+	public static final List<ResourceLocation> CATEGORIES = List.of(new ResourceLocation("avaritia:extreme_crafting"));
+	public static final Vec3i COLOR = new Vec3i(139, 139, 139);
+	public static final Vec3i COLOR_DISABLED = new Vec3i(64, 64, 64);
 
 	static {
 		SLOTS = new IntRBTreeSet();
@@ -42,13 +40,13 @@ public class ExtremePackageRecipeType implements IPackageRecipeType {
 	}
 
 	@Override
-	public IFormattableTextComponent getDisplayName() {
-		return new TranslationTextComponent("recipe.packagedavaritia.extreme");
+	public MutableComponent getDisplayName() {
+		return new TranslatableComponent("recipe.packagedavaritia.extreme");
 	}
 
 	@Override
-	public IFormattableTextComponent getShortDisplayName() {
-		return new TranslationTextComponent("recipe.packagedavaritia.extreme.short");
+	public MutableComponent getShortDisplayName() {
+		return new TranslatableComponent("recipe.packagedavaritia.extreme.short");
 	}
 
 	@Override
@@ -67,17 +65,16 @@ public class ExtremePackageRecipeType implements IPackageRecipeType {
 	}
 
 	@Override
-	public Int2ObjectMap<ItemStack> getRecipeTransferMap(IRecipeLayoutWrapper recipeLayoutWrapper) {
+	public Int2ObjectMap<ItemStack> getRecipeTransferMap(IRecipeSlotsViewWrapper recipeLayoutWrapper) {
 		Int2ObjectMap<ItemStack> map = new Int2ObjectOpenHashMap<>();
-		Map<Integer, IGuiIngredientWrapper<ItemStack>> ingredients = recipeLayoutWrapper.getItemStackIngredients();
+		List<IRecipeSlotViewWrapper> slotViews = recipeLayoutWrapper.getRecipeSlotViews();
 		int index = 0;
 		int[] slotArray = SLOTS.toIntArray();
-		for(Map.Entry<Integer, IGuiIngredientWrapper<ItemStack>> entry : ingredients.entrySet()) {
-			IGuiIngredientWrapper<ItemStack> ingredient = entry.getValue();
-			if(ingredient.isInput()) {
-				ItemStack displayed = entry.getValue().getDisplayedIngredient();
-				if(displayed != null && !displayed.isEmpty()) {
-					map.put(slotArray[index], displayed);
+		for(IRecipeSlotViewWrapper slotView : slotViews) {
+			if(slotView.isInput()) {
+				Object displayed = slotView.getDisplayedIngredient().orElse(null);
+				if(displayed instanceof ItemStack stack && !stack.isEmpty()) {
+					map.put(slotArray[index], stack);
 				}
 				++index;
 			}
@@ -94,8 +91,8 @@ public class ExtremePackageRecipeType implements IPackageRecipeType {
 	}
 
 	@Override
-	public Vector3i getSlotColor(int slot) {
-		if(slot >= 81 && slot != 85 && slot < 90) {
+	public Vec3i getSlotColor(int slot) {
+		if(slot >= 81 && slot != 81 && slot < 90) {
 			return COLOR_DISABLED;
 		}
 		return COLOR;

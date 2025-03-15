@@ -8,17 +8,17 @@ import avaritia.init.ModRecipeSerializers;
 import avaritia.recipe.ITableRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.Level;
 import thelm.packagedauto.api.IPackagePattern;
 import thelm.packagedauto.api.IPackageRecipeType;
-import thelm.packagedauto.container.EmptyContainer;
+import thelm.packagedauto.menu.EmptyMenu;
 import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedauto.util.PackagePattern;
 
@@ -26,23 +26,23 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 
 	ITableRecipe recipe;
 	List<ItemStack> input = new ArrayList<>();
-	CraftingInventory matrix = new CraftingInventory(new EmptyContainer(), 9, 9);
-	ItemStack output = ItemStack.EMPTY;
+	CraftingContainer matrix = new CraftingContainer(new EmptyMenu(), 9, 9);
+	ItemStack output;
 	List<IPackagePattern> patterns = new ArrayList<>();
 
 	@Override
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundTag nbt) {
 		input.clear();
 		output = ItemStack.EMPTY;
 		patterns.clear();
-		IRecipe<?> recipe = MiscHelper.INSTANCE.getRecipeManager().byKey(new ResourceLocation(nbt.getString("Recipe"))).orElse(null);
+		Recipe<?> recipe = MiscHelper.INSTANCE.getRecipeManager().byKey(new ResourceLocation(nbt.getString("Recipe"))).orElse(null);
 		List<ItemStack> matrixList = new ArrayList<>();
 		MiscHelper.INSTANCE.loadAllItems(nbt.getList("Matrix", 10), matrixList);
 		for(int i = 0; i < 81 && i < matrixList.size(); ++i) {
 			matrix.setItem(i, matrixList.get(i));
 		}
-		if(recipe instanceof ITableRecipe) {
-			this.recipe = (ITableRecipe)recipe;
+		if(recipe instanceof ITableRecipe extremeRecipe) {
+			this.recipe = extremeRecipe;
 			output = this.recipe.assemble(matrix).copy();
 		}
 		input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));
@@ -52,7 +52,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT nbt) {
+	public void save(CompoundTag nbt) {
 		if(recipe != null) {
 			nbt.putString("Recipe", recipe.getId().toString());
 		}
@@ -60,9 +60,8 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 		for(int i = 0; i < 81; ++i) {
 			matrixList.add(matrix.getItem(i));
 		}
-		ListNBT matrixTag = MiscHelper.INSTANCE.saveAllItems(new ListNBT(), matrixList);
+		ListTag matrixTag = MiscHelper.INSTANCE.saveAllItems(new ListTag(), matrixList);
 		nbt.put("Matrix", matrixTag);
-		return nbt;
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 	}
 
 	@Override
-	public IInventory getMatrix() {
+	public Container getMatrix() {
 		return matrix;
 	}
 
@@ -106,7 +105,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 	}
 
 	@Override
-	public void generateFromStacks(List<ItemStack> input, List<ItemStack> output, World world) {
+	public void generateFromStacks(List<ItemStack> input, List<ItemStack> output, Level level) {
 		recipe = null;
 		this.input.clear();
 		patterns.clear();
@@ -115,7 +114,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 			toSet.setCount(1);
 			matrix.setItem(i, toSet.copy());
 		}
-		ITableRecipe recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(ModRecipeSerializers.TABLE, matrix, world).orElse(null);
+		ITableRecipe recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(ModRecipeSerializers.TABLE, matrix, level).orElse(null);
 		if(recipe != null) {
 			this.recipe = recipe;
 			this.input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));
@@ -139,8 +138,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ExtremePackageRecipeInfo) {
-			ExtremePackageRecipeInfo other = (ExtremePackageRecipeInfo)obj;
+		if(obj instanceof ExtremePackageRecipeInfo other) {
 			return MiscHelper.INSTANCE.recipeEquals(this, recipe, other, other.recipe);
 		}
 		return false;

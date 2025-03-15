@@ -1,21 +1,21 @@
 package thelm.packagedavaritia.event;
 
-import net.minecraft.block.Block;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedavaritia.block.ExtremeCrafterBlock;
+import thelm.packagedavaritia.block.entity.ExtremeCrafterBlockEntity;
 import thelm.packagedavaritia.config.PackagedAvaritiaConfig;
-import thelm.packagedavaritia.menu.ExtremeCrafterContainer;
+import thelm.packagedavaritia.menu.ExtremeCrafterMenu;
 import thelm.packagedavaritia.recipe.ExtremePackageRecipeType;
-import thelm.packagedavaritia.tile.ExtremeCrafterTile;
 
 public class CommonEventHandler {
 
@@ -43,15 +43,15 @@ public class CommonEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onTileEntityRegister(RegistryEvent.Register<TileEntityType<?>> event) {
-		IForgeRegistry<TileEntityType<?>> registry = event.getRegistry();
-		registry.register(ExtremeCrafterTile.TYPE_INSTANCE);
+	public void onBlockEntityRegister(RegistryEvent.Register<BlockEntityType<?>> event) {
+		IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
+		registry.register(ExtremeCrafterBlockEntity.TYPE_INSTANCE);
 	}
 
 	@SubscribeEvent
-	public void onMenuRegister(RegistryEvent.Register<ContainerType<?>> event) {
-		IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
-		registry.register(ExtremeCrafterContainer.TYPE_INSTANCE);
+	public void onMenuRegister(RegistryEvent.Register<MenuType<?>> event) {
+		IForgeRegistry<MenuType<?>> registry = event.getRegistry();
+		registry.register(ExtremeCrafterMenu.TYPE_INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -62,11 +62,8 @@ public class CommonEventHandler {
 	@SubscribeEvent
 	public void onModConfig(ModConfigEvent event) {
 		switch(event.getConfig().getType()) {
-		case SERVER:
-			PackagedAvaritiaConfig.reloadServerConfig();
-			break;
-		default:
-			break;
+		case SERVER -> PackagedAvaritiaConfig.reloadServerConfig();
+		default -> {}
 		}
 	}
 }

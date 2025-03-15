@@ -1,19 +1,19 @@
-package thelm.packagedavaritia.tile;
+package thelm.packagedavaritia.block.entity;
 
 import java.util.List;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -21,21 +21,23 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import thelm.packagedauto.api.IPackageCraftingMachine;
 import thelm.packagedauto.api.IPackageRecipeInfo;
+import thelm.packagedauto.block.entity.BaseBlockEntity;
+import thelm.packagedauto.block.entity.UnpackagerBlockEntity;
 import thelm.packagedauto.energy.EnergyStorage;
-import thelm.packagedauto.tile.BaseTile;
-import thelm.packagedauto.tile.UnpackagerTile;
 import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedavaritia.block.ExtremeCrafterBlock;
-import thelm.packagedavaritia.integration.appeng.tile.AEExtremeCrafterTile;
+import thelm.packagedavaritia.integration.appeng.blockentity.AEExtremeCrafterBlockEntity;
 import thelm.packagedavaritia.inventory.ExtremeCrafterItemHandler;
-import thelm.packagedavaritia.menu.ExtremeCrafterContainer;
+import thelm.packagedavaritia.menu.ExtremeCrafterMenu;
 import thelm.packagedavaritia.recipe.IExtremePackageRecipeInfo;
 
-public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity, IPackageCraftingMachine {
+public class ExtremeCrafterBlockEntity extends BaseBlockEntity implements IPackageCraftingMachine {
 
-	public static final TileEntityType<ExtremeCrafterTile> TYPE_INSTANCE = (TileEntityType<ExtremeCrafterTile>)TileEntityType.Builder.
-			of(MiscHelper.INSTANCE.conditionalSupplier(()->ModList.get().isLoaded("appliedenergistics2"),
-					()->AEExtremeCrafterTile::new, ()->ExtremeCrafterTile::new), ExtremeCrafterBlock.INSTANCE).
+	public static final BlockEntityType<ExtremeCrafterBlockEntity> TYPE_INSTANCE = (BlockEntityType<ExtremeCrafterBlockEntity>)BlockEntityType.Builder.
+			of(MiscHelper.INSTANCE.<BlockEntityType.BlockEntitySupplier<ExtremeCrafterBlockEntity>>conditionalSupplier(
+					()->ModList.get().isLoaded("ae2"),
+					()->()->AEExtremeCrafterBlockEntity::new, ()->()->ExtremeCrafterBlockEntity::new).get(),
+					ExtremeCrafterBlock.INSTANCE).
 			build(null).setRegistryName("packagedavaritia:extreme_crafter");
 
 	public static int energyCapacity = 5000;
@@ -47,15 +49,15 @@ public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity,
 	public int remainingProgress = 0;
 	public IExtremePackageRecipeInfo currentRecipe;
 
-	public ExtremeCrafterTile() {
-		super(TYPE_INSTANCE);
+	public ExtremeCrafterBlockEntity(BlockPos pos, BlockState state) {
+		super(TYPE_INSTANCE, pos, state);
 		setItemHandler(new ExtremeCrafterItemHandler(this));
 		setEnergyStorage(new EnergyStorage(this, energyCapacity));
 	}
 
 	@Override
-	protected ITextComponent getDefaultName() {
-		return new TranslationTextComponent("block.packagedavaritia.extreme_crafter");
+	protected Component getDefaultName() {
+		return new TranslatableComponent("block.packagedavaritia.extreme_crafter");
 	}
 
 	@Override
@@ -77,11 +79,10 @@ public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity,
 
 	@Override
 	public boolean acceptPackage(IPackageRecipeInfo recipeInfo, List<ItemStack> stacks, Direction direction) {
-		if(!isBusy() && recipeInfo.isValid() && recipeInfo instanceof IExtremePackageRecipeInfo) {
-			IExtremePackageRecipeInfo recipe = (IExtremePackageRecipeInfo)recipeInfo;
+		if(!isBusy() && recipeInfo.isValid() && recipeInfo instanceof IExtremePackageRecipeInfo recipe) {
 			ItemStack slotStack = itemHandler.getStackInSlot(81);
 			ItemStack outputStack = recipe.getOutput();
-			if(slotStack.isEmpty() || slotStack.getItem() == outputStack.getItem() && ItemStack.tagMatches(slotStack, outputStack) && slotStack.getCount()+outputStack.getCount() <= outputStack.getMaxStackSize()) {
+			if(slotStack.isEmpty() || ItemStack.isSameItemSameTags(slotStack, outputStack) && slotStack.getCount()+outputStack.getCount() <= outputStack.getMaxStackSize()) {
 				currentRecipe = recipe;
 				isWorking = true;
 				remainingProgress = energyReq;
@@ -133,9 +134,9 @@ public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity,
 	protected void ejectItems() {
 		int endIndex = isWorking ? 81 : 0;
 		for(Direction direction : Direction.values()) {
-			TileEntity tile = level.getBlockEntity(worldPosition.relative(direction));
-			if(tile != null && !(tile instanceof UnpackagerTile) && tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction.getOpposite()).isPresent()) {
-				IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction.getOpposite()).resolve().get();
+			BlockEntity blockEntity = level.getBlockEntity(worldPosition.relative(direction));
+			if(blockEntity != null && !(blockEntity instanceof UnpackagerBlockEntity) && blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction.getOpposite()).isPresent()) {
+				IItemHandler itemHandler = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction.getOpposite()).resolve().get();
 				for(int i = 81; i >= endIndex; --i) {
 					ItemStack stack = this.itemHandler.getStackInSlot(i);
 					if(stack.isEmpty()) {
@@ -171,30 +172,29 @@ public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity,
 	}
 
 	@Override
-	public void load(BlockState blockState, CompoundNBT nbt) {
-		super.load(blockState, nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		isWorking = nbt.getBoolean("Working");
 		remainingProgress = nbt.getInt("Progress");
 		currentRecipe = null;
 		if(nbt.contains("Recipe")) {
-			CompoundNBT tag = nbt.getCompound("Recipe");
-			IPackageRecipeInfo recipe = MiscHelper.INSTANCE.readRecipe(tag);
-			if(recipe instanceof IExtremePackageRecipeInfo) {
-				currentRecipe = (IExtremePackageRecipeInfo)recipe;
+			CompoundTag tag = nbt.getCompound("Recipe");
+			IPackageRecipeInfo recipe = MiscHelper.INSTANCE.loadRecipe(tag);
+			if(recipe instanceof IExtremePackageRecipeInfo extremeRecipe) {
+				currentRecipe = extremeRecipe;
 			}
 		}
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT nbt) {
-		super.save(nbt);
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		nbt.putBoolean("Working", isWorking);
 		nbt.putInt("Progress", remainingProgress);
 		if(currentRecipe != null) {
-			CompoundNBT tag = MiscHelper.INSTANCE.writeRecipe(new CompoundNBT(), currentRecipe);
+			CompoundTag tag = MiscHelper.INSTANCE.saveRecipe(new CompoundTag(), currentRecipe);
 			nbt.put("Recipe", tag);
 		}
-		return nbt;
 	}
 
 	public int getScaledEnergy(int scale) {
@@ -212,8 +212,8 @@ public class ExtremeCrafterTile extends BaseTile implements ITickableTileEntity,
 	}
 
 	@Override
-	public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player) {
-		syncTile(false);
-		return new ExtremeCrafterContainer(windowId, playerInventory, this);
+	public AbstractContainerMenu createMenu(int windowId, Inventory inventory, Player player) {
+		sync(false);
+		return new ExtremeCrafterMenu(windowId, inventory, this);
 	}
 }

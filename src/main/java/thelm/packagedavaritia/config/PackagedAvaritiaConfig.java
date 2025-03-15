@@ -3,7 +3,7 @@ package thelm.packagedavaritia.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
-import thelm.packagedavaritia.tile.ExtremeCrafterTile;
+import thelm.packagedavaritia.block.entity.ExtremeCrafterBlockEntity;
 
 public class PackagedAvaritiaConfig {
 
@@ -39,9 +39,9 @@ public class PackagedAvaritiaConfig {
 	}
 
 	public static void reloadServerConfig() {
-		ExtremeCrafterTile.energyCapacity = extremeCrafterEnergyCapacity.get();
-		ExtremeCrafterTile.energyReq = extremeCrafterEnergyReq.get();
-		ExtremeCrafterTile.energyUsage = extremeCrafterEnergyUsage.get();
-		ExtremeCrafterTile.drawMEEnergy = extremeCrafterDrawMEEnergy.get();
+		ExtremeCrafterBlockEntity.energyCapacity = extremeCrafterEnergyCapacity.get();
+		ExtremeCrafterBlockEntity.energyReq = extremeCrafterEnergyReq.get();
+		ExtremeCrafterBlockEntity.energyUsage = extremeCrafterEnergyUsage.get();
+		ExtremeCrafterBlockEntity.drawMEEnergy = extremeCrafterDrawMEEnergy.get();
 	}
 }

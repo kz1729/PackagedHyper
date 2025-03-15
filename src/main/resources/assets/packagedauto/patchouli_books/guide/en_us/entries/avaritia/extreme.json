@@ -9,7 +9,7 @@
 		},
 		{
 			"type": "patchouli:spotlight",
-			"flag": "mod:appliedenergistics2",
+			"flag": "mod:ae2",
 			"item": "packagedavaritia:extreme_crafter",
 			"link_recipe": true,
 			"title": "AE2 Integration",
@@ -17,13 +17,13 @@
 		},
 		{
 			"type": "patchouli:crafting",
-			"flag": "!mod:appliedenergistics2",
+			"flag": "!mod:ae2",
 			"recipe": "packagedavaritia:extreme_crafter",
 			"title": "Crafting"
 		},
 		{
 			"type": "patchouli:crafting",
-			"flag": "mod:appliedenergistics2",
+			"flag": "mod:ae2",
 			"recipe": "packagedavaritia:extreme_crafter_ae",
 			"title": "Crafting"
 		}

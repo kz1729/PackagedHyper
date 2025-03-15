@@ -1,28 +1,38 @@
 package thelm.packagedavaritia.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import thelm.packagedauto.block.BaseBlock;
+import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedavaritia.PackagedAvaritia;
-import thelm.packagedavaritia.tile.ExtremeCrafterTile;
+import thelm.packagedavaritia.block.entity.ExtremeCrafterBlockEntity;
 
 public class ExtremeCrafterBlock extends BaseBlock {
 
 	public static final ExtremeCrafterBlock INSTANCE = new ExtremeCrafterBlock();
-	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties().tab(PackagedAvaritia.ITEM_GROUP)).setRegistryName("packagedavaritia:extreme_crafter");
+	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties().tab(PackagedAvaritia.CREATIVE_TAB)).setRegistryName("packagedavaritia:extreme_crafter");
 
 	public ExtremeCrafterBlock() {
-		super(AbstractBlock.Properties.of(Material.METAL).strength(15F, 25F).sound(SoundType.METAL));
+		super(BlockBehaviour.Properties.of(Material.METAL).strength(15F, 25F).sound(SoundType.METAL));
 		setRegistryName("packagedavaritia:extreme_crafter");
 	}
 
 	@Override
-	public ExtremeCrafterTile createTileEntity(BlockState state, IBlockReader worldIn) {
-		return ExtremeCrafterTile.TYPE_INSTANCE.create();
+	public ExtremeCrafterBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return ExtremeCrafterBlockEntity.TYPE_INSTANCE.create(pos, state);
+	}
+
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+		return BaseBlockEntity::tick;
 	}
 }
