@@ -6,7 +6,7 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedAvaritia/issues"
 [[mods]]
 	modId = "packagedavaritia"
 	version = "0@VERSION@"
-	displayName = "PackagedAvaritia:Endless"
+	displayName = "PackagedAvaritia:Universal"
 	description = "A PackagedAuto addon that adds Avaritia autocrafting."
 	logoFile = "packagedavaritia.logo.png"
 	authors = "TheLMiffy1111"
@@ -23,6 +23,6 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedAvaritia/issues"
 	mandatory = true
 
 [[dependencies.packagedavaritia]]
-	modId = "endless"
-	versionRange = "[1.16.5-1,)"
+	modId = "avaritia"
+	versionRange = "[2,)"
 	mandatory = true

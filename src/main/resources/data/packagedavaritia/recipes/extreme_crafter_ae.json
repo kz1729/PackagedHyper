@@ -20,13 +20,13 @@
 			"item": "packagedauto:me_package_component"
 		},
 		"T": {
-			"item": "endless:extreme_crafting_table"
+			"item": "avaritia:extreme_crafting_table"
 		},
 		"H": {
 			"item": "minecraft:hopper"
 		},
 		"M": {
-			"item": "endless:crystal_matrix_ingot"
+			"item": "avaritia:crystal_matrix_ingot"
 		},
 		"R": {
 			"tag": "forge:dusts/redstone"

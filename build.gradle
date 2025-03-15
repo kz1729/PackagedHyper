@@ -71,13 +71,13 @@ sourceSets {
 }
 
 def mcVersion = "1.16.5"
-def modName = "PackagedAvaritia-Endless"
+def modName = "PackagedAvaritia-Universal"
 def modId = "packagedavaritia"
 def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedavaritia"
-version = "2.N.0.7"
+version = "2.N.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -122,8 +122,8 @@ dependencies {
 	forge "net.minecraftforge:forge:1.16.5-36.2.42"
 
 	// Dependencies
-	modImplementation "thelm.packagedauto:PackagedAuto-1.16.5:2.0.11.47"
-	modImplementation "curse.maven:avaritia-endless-624491:6133464"
+	modImplementation "thelm.packagedauto:PackagedAuto-1.16.5:2.0.11.48"
+	modImplementation "curse.maven:avaritia-universal-891434:5506581"
 	modImplementation "mezz.jei:jei-1.16.5:7.8.0.1013"
 	modImplementation "appeng:appliedenergistics2:8.4.7"
 	modImplementation "vazkii.patchouli:Patchouli:1.16.4-53.3"
@@ -192,7 +192,7 @@ publishing {
 
 publishMods {
 	file = remapJar.archiveFile
-	version = displayName = "${mcVersion}-Endless-${project.version}"
+	version = displayName = "${mcVersion}-Universal-${project.version}"
 	changelog = file("changelog.md").text
 	type = BETA
 	modLoaders.add("forge")
@@ -202,7 +202,7 @@ publishMods {
 		accessToken = providers.gradleProperty("curseforge.token")
 		projectId = "308383"
 		minecraftVersions.add(mcVersion)
-		requires "packagedauto", "avaritia-endless"
+		requires "packagedauto", "avaritia-universal"
 		optional "applied-energistics-2"
 	}
 

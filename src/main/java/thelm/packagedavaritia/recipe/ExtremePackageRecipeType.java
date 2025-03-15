@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import com.yuo.endless.Blocks.EndlessBlocks;
-
+import avaritia.block.ModBlocks;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntRBTreeSet;
@@ -26,7 +25,7 @@ public class ExtremePackageRecipeType implements IPackageRecipeType {
 	public static final ExtremePackageRecipeType INSTANCE = new ExtremePackageRecipeType();
 	public static final ResourceLocation NAME = new ResourceLocation("packagedavaritia:extreme");
 	public static final IntSet SLOTS;
-	public static final List<ResourceLocation> CATEGORIES = Collections.singletonList(new ResourceLocation("endless:extreme_craft"));
+	public static final List<ResourceLocation> CATEGORIES = Collections.singletonList(new ResourceLocation("avaritia:extreme_crafting"));
 	public static final Vector3i COLOR = new Vector3i(139, 139, 139);
 	public static final Vector3i COLOR_DISABLED = new Vector3i(64, 64, 64);
 
@@ -91,7 +90,7 @@ public class ExtremePackageRecipeType implements IPackageRecipeType {
 
 	@Override
 	public Object getRepresentation() {
-		return new ItemStack(EndlessBlocks.extremeCraftingTable.get());
+		return new ItemStack(ModBlocks.extreme_crafting_table.get());
 	}
 
 	@Override
