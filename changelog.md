@@ -1,1 +1,1 @@
-1.18.2 Avaritia Universal  
+1.19.2 Avaritia Universal  

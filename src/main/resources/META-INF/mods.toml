@@ -1,12 +1,12 @@
 modLoader = "javafml"
-loaderVersion = "[40,)"
+loaderVersion = "[41,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedAvaritia/issues"
 
 [[mods]]
 	modId = "packagedavaritia"
 	version = "0@VERSION@"
-	displayName = "PackagedAvaritia:Universal"
+	displayName = "PackagedAvaritia:Re"
 	description = "A PackagedAuto addon that adds Avaritia autocrafting."
 	logoFile = "packagedavaritia.logo.png"
 	authors = "TheLMiffy1111"
@@ -14,12 +14,12 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedAvaritia/issues"
 
 [[dependencies.packagedavaritia]]
 	modId = "forge"
-	versionRange = "[40,)"
+	versionRange = "[41,)"
 	mandatory = true
 
 [[dependencies.packagedavaritia]]
 	modId = "packagedauto"
-	versionRange = "[3.1.14,)"
+	versionRange = "[3.2.14,)"
 	mandatory = true
 
 [[dependencies.packagedavaritia]]

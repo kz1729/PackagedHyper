@@ -114,7 +114,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 			toSet.setCount(1);
 			matrix.setItem(i, toSet.copy());
 		}
-		ITableRecipe recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(ModRecipeSerializers.TABLE, matrix, level).orElse(null);
+		ITableRecipe recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(ModRecipeSerializers.TABLE.get(), matrix, level).orElse(null);
 		if(recipe != null) {
 			this.recipe = recipe;
 			this.input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));

@@ -12,9 +12,7 @@ import thelm.packagedavaritia.slot.ExtremeCrafterRemoveOnlySlot;
 
 public class ExtremeCrafterMenu extends BaseMenu<ExtremeCrafterBlockEntity> {
 
-	public static final MenuType<ExtremeCrafterMenu> TYPE_INSTANCE = (MenuType<ExtremeCrafterMenu>)IForgeMenuType.
-			create(new PositionalBlockEntityMenuFactory<>(ExtremeCrafterMenu::new)).
-			setRegistryName("packagedavaritia:extreme_crafter");
+	public static final MenuType<ExtremeCrafterMenu> TYPE_INSTANCE = IForgeMenuType.create(new PositionalBlockEntityMenuFactory<>(ExtremeCrafterMenu::new));
 
 	public ExtremeCrafterMenu(int windowId, Inventory inventory, ExtremeCrafterBlockEntity blockEntity) {
 		super(TYPE_INSTANCE, windowId, inventory, blockEntity);

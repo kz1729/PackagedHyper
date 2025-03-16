@@ -19,11 +19,10 @@ import thelm.packagedavaritia.block.entity.ExtremeCrafterBlockEntity;
 public class ExtremeCrafterBlock extends BaseBlock {
 
 	public static final ExtremeCrafterBlock INSTANCE = new ExtremeCrafterBlock();
-	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties().tab(PackagedAvaritia.CREATIVE_TAB)).setRegistryName("packagedavaritia:extreme_crafter");
+	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties().tab(PackagedAvaritia.CREATIVE_TAB));
 
 	public ExtremeCrafterBlock() {
 		super(BlockBehaviour.Properties.of(Material.METAL).strength(15F, 25F).sound(SoundType.METAL));
-		setRegistryName("packagedavaritia:extreme_crafter");
 	}
 
 	@Override
