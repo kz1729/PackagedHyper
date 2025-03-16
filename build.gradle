@@ -115,7 +115,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.18.2-40.2.21"
 
 	// Dependencies
-	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.14.55"
+	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.14.56"
 	modImplementation "curse.maven:avaritia-universal-891434:5506588"
 	modImplementation("mezz.jei:jei-1.18.2-forge:10.2.1.1009") {transitive = false}
 	modImplementation "appeng:appliedenergistics2-forge:11.7.6"
