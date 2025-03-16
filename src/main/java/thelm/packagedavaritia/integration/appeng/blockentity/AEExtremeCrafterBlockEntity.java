@@ -78,11 +78,6 @@ public class AEExtremeCrafterBlockEntity extends ExtremeCrafterBlockEntity imple
 	}
 
 	@Override
-	public void onSecurityBreak(AEExtremeCrafterBlockEntity nodeOwner, IGridNode node) {
-		level.destroyBlock(worldPosition, true);
-	}
-
-	@Override
 	public void onSaveChanges(AEExtremeCrafterBlockEntity nodeOwner, IGridNode node) {
 		setChanged();
 	}
@@ -136,6 +131,7 @@ public class AEExtremeCrafterBlockEntity extends ExtremeCrafterBlockEntity imple
 		}
 	}
 
+	@SuppressWarnings("removal")
 	protected void chargeMEEnergy() {
 		if(getMainNode().isActive()) {
 			IGrid grid = getMainNode().getGrid();

@@ -1,8 +1,11 @@
 package thelm.packagedavaritia.event;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -31,21 +34,32 @@ public class CommonEventHandler {
 		modEventBus.register(this);
 		PackagedAvaritiaConfig.registerConfig();
 
-		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registry.BLOCK_REGISTRY, "packagedavaritia");
+		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registries.BLOCK, "packagedavaritia");
 		blockRegister.register(modEventBus);
 		blockRegister.register("extreme_crafter", ()->ExtremeCrafterBlock.INSTANCE);
 
-		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registry.ITEM_REGISTRY, "packagedavaritia");
+		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registries.ITEM, "packagedavaritia");
 		itemRegister.register(modEventBus);
 		itemRegister.register("extreme_crafter", ()->ExtremeCrafterBlock.ITEM_INSTANCE);
 
-		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, "packagedavaritia");
+		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, "packagedavaritia");
 		blockEntityRegister.register(modEventBus);
 		blockEntityRegister.register("extreme_crafter", ()->ExtremeCrafterBlockEntity.TYPE_INSTANCE);
 
-		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registry.MENU_REGISTRY, "packagedavaritia");
+		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registries.MENU, "packagedavaritia");
 		menuRegister.register(modEventBus);
 		menuRegister.register("extreme_crafter", ()->ExtremeCrafterMenu.TYPE_INSTANCE);
+
+		DeferredRegister<CreativeModeTab> creativeTabRegister = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, "packagedavaritia");
+		creativeTabRegister.register(modEventBus);
+		creativeTabRegister.register("tab",
+				()->CreativeModeTab.builder().
+				title(Component.translatable("itemGroup.packagedavaritia")).
+				icon(()->new ItemStack(ExtremeCrafterBlock.ITEM_INSTANCE)).
+				displayItems((parameters, output)->{
+					output.accept(ExtremeCrafterBlock.ITEM_INSTANCE);
+				}).
+				build());
 	}
 
 	@SubscribeEvent

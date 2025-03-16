@@ -13,6 +13,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
@@ -26,7 +27,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 
 	ITableRecipe recipe;
 	List<ItemStack> input = new ArrayList<>();
-	CraftingContainer matrix = new CraftingContainer(new EmptyMenu(), 9, 9);
+	CraftingContainer matrix = new TransientCraftingContainer(new EmptyMenu(), 9, 9);
 	ItemStack output;
 	List<IPackagePattern> patterns = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 		}
 		if(recipe instanceof ITableRecipe extremeRecipe) {
 			this.recipe = extremeRecipe;
-			output = this.recipe.assemble(matrix).copy();
+			output = this.recipe.assemble(matrix, MiscHelper.INSTANCE.getRegistryAccess()).copy();
 		}
 		input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));
 		for(int i = 0; i*9 < input.size(); ++i) {
@@ -118,7 +119,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 		if(recipe != null) {
 			this.recipe = recipe;
 			this.input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));
-			this.output = recipe.assemble(matrix).copy();
+			this.output = recipe.assemble(matrix, MiscHelper.INSTANCE.getRegistryAccess()).copy();
 			for(int i = 0; i*9 < this.input.size(); ++i) {
 				patterns.add(new PackagePattern(this, i));
 			}
