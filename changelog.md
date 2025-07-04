@@ -1,1 +1,1 @@
-1.20.1 Avaritia Universal  
+Adjust block strength values  
