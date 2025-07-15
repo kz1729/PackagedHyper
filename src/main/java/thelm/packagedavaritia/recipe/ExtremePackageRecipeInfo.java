@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import avaritia.init.ModRecipeSerializers;
-import avaritia.recipe.ITableRecipe;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.byAqua3.avaritia.loader.AvaritiaRecipes;
+import net.byAqua3.avaritia.recipe.RecipeExtremeCrafting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +25,7 @@ import thelm.packagedauto.util.PackagePattern;
 
 public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 
-	ITableRecipe recipe;
+	RecipeExtremeCrafting recipe;
 	List<ItemStack> input = new ArrayList<>();
 	CraftingContainer matrix = new TransientCraftingContainer(new EmptyMenu(), 9, 9);
 	ItemStack output;
@@ -42,7 +42,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 		for(int i = 0; i < 81 && i < matrixList.size(); ++i) {
 			matrix.setItem(i, matrixList.get(i));
 		}
-		if(recipe instanceof ITableRecipe extremeRecipe) {
+		if(recipe instanceof RecipeExtremeCrafting extremeRecipe) {
 			this.recipe = extremeRecipe;
 			output = this.recipe.assemble(matrix, MiscHelper.INSTANCE.getRegistryAccess()).copy();
 		}
@@ -91,7 +91,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 	}
 
 	@Override
-	public ITableRecipe getRecipe() {
+	public RecipeExtremeCrafting getRecipe() {
 		return recipe;
 	}
 
@@ -115,7 +115,7 @@ public class ExtremePackageRecipeInfo implements IExtremePackageRecipeInfo {
 			toSet.setCount(1);
 			matrix.setItem(i, toSet.copy());
 		}
-		ITableRecipe recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(ModRecipeSerializers.TABLE.get(), matrix, level).orElse(null);
+		RecipeExtremeCrafting recipe = MiscHelper.INSTANCE.getRecipeManager().getRecipeFor(AvaritiaRecipes.EXTREME_CRAFTING.get(), matrix, level).orElse(null);
 		if(recipe != null) {
 			this.recipe = recipe;
 			this.input.addAll(MiscHelper.INSTANCE.condenseStacks(matrix));

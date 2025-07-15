@@ -2,7 +2,7 @@ package thelm.packagedavaritia.recipe;
 
 import java.util.List;
 
-import avaritia.recipe.ITableRecipe;
+import net.byAqua3.avaritia.recipe.RecipeExtremeCrafting;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import thelm.packagedauto.api.IPackageRecipeInfo;
@@ -11,7 +11,7 @@ public interface IExtremePackageRecipeInfo extends IPackageRecipeInfo {
 
 	ItemStack getOutput();
 
-	ITableRecipe getRecipe();
+	RecipeExtremeCrafting getRecipe();
 
 	Container getMatrix();
 
