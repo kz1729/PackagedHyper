@@ -12,6 +12,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import thelm.packagedauto.util.ApiImpl;
@@ -20,6 +21,7 @@ import thelm.packagedavaritia.block.entity.ExtremeCrafterBlockEntity;
 import thelm.packagedavaritia.config.PackagedAvaritiaConfig;
 import thelm.packagedavaritia.menu.ExtremeCrafterMenu;
 import thelm.packagedavaritia.recipe.ExtremePackageRecipeType;
+import thelm.packagedavaritia.variant.VariantChecker;
 
 public class CommonEventHandler {
 
@@ -60,6 +62,11 @@ public class CommonEventHandler {
 					output.accept(ExtremeCrafterBlock.ITEM_INSTANCE);
 				}).
 				build());
+	}
+
+	@SubscribeEvent
+	public void onConstructMod(FMLConstructModEvent event) {
+		VariantChecker.check();
 	}
 
 	@SubscribeEvent

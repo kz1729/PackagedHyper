@@ -1,1 +1,2 @@
-Port to AvaritiaNeo 1.20.1  
+Add Avaritia variant check  
+Adjust textures  
