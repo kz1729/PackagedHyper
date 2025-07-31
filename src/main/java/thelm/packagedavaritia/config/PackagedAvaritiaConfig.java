@@ -16,6 +16,7 @@ public class PackagedAvaritiaConfig {
 	public static ForgeConfigSpec.IntValue extremeCrafterEnergyUsage;
 	public static ForgeConfigSpec.BooleanValue extremeCrafterDrawMEEnergy;
 
+	@SuppressWarnings("removal")
 	public static void registerConfig() {
 		buildConfig();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
