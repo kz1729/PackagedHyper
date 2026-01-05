@@ -1,0 +1,20 @@
+#[[mods]]
+#modId = "packagedhyper"
+#version = "1.0.0"
+#displayName = "Packaged Hyper"
+#authors = "kz1729"
+#description = '''
+#PackagedAuto integration for Hyperlink
+#'''
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "MIT"
+
+[[mods]]
+modId = "packagedhyper"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+description = '''
+${mod_description}
+'''
