@@ -3,17 +3,10 @@ loaderVersion = "[47,)"
 license = "MIT"
 
 [[mods]]
-modId = "packagedhyper"
+modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
 authors = "${mod_authors}"
 description = '''
 ${mod_description}
 '''
-
-[[dependencies.packagedhyper]]
-modId = "ae2"
-mandatory = false
-versionRange = "[15,)"
-ordering = "NONE"
-side = "BOTH"

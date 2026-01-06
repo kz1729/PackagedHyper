@@ -29,6 +29,8 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
+            jvmArgs '-Djava.system.class.loader=cpw.mods.bootstraplauncher.BootstrapClassLoader'
+
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -38,7 +40,10 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
         }
+
 
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -63,17 +68,23 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     maven {
         url = "https://cursemaven.com"
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
     }
 }
 
 
 dependencies {
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     compileOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
-    runtimeOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
-//
-//    compileOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
+//    runtimeOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
+
+    compileOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
 //    runtimeOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
 
+    compileOnly fg.deobf("curse.maven:guideme-1173950:7127447")
+//    runtimeOnly fg.deobf("curse.maven:guideme-1173950:7127447")
 
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
