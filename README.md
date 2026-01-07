@@ -1,13 +1,11 @@
 # PackagedHyper
-
-PackagedAuto integration addon for Hyperlink (Minecraft Forge 1.20.1).
+packaged autoシリーズの一つとして、Hyperlinkのゲーマークラフターの自動化を提供します
+（開発中）
 
 ## Status
 
-- Forge mod boots correctly
-- PackagedAuto detected
-- Integration logic: WIP
+開発中
 
 ## License
 
-MIT
+MIT（の予定）
