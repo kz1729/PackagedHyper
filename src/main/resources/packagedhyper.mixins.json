@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.kz1729.packagedhyper.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "packagedhyper.refmap.json",
+  "mixins": [
+    "TestMixin"
+  ],
+  "client": [
+  ],
+  "server": []
+}
