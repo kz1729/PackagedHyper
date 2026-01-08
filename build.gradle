@@ -77,14 +77,52 @@ dependencies {
     implementation 'org.spongepowered:mixin:0.8.5'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-//    compileOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
-//    runtimeOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
+    //必要連携
+    compileOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
+    runtimeOnly fg.deobf("curse.maven:packagedauto-308380:7329736")
 
-//    compileOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
-//    runtimeOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
+    compileOnly fg.deobf("curse.maven:hyperlink-1274604:7052766")
+    runtimeOnly fg.deobf("curse.maven:hyperlink-1274604:7052766")
 
-//    compileOnly fg.deobf("curse.maven:guideme-1173950:7127447")
-//    runtimeOnly fg.deobf("curse.maven:guideme-1173950:7127447")
+    //任意連携
+    compileOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
+    runtimeOnly fg.deobf("curse.maven:applied-energistics-2-223794:7148487")
+
+    compileOnly fg.deobf("curse.maven:guideme-1173950:7127447")
+    runtimeOnly fg.deobf("curse.maven:guideme-1173950:7127447")
+
+
+    //開発環境用mod
+
+    compileOnly fg.deobf("curse.maven:ae2-mega-things-1150075:6203824")
+    runtimeOnly fg.deobf("curse.maven:ae2-mega-things-1150075:6203824")
+
+    compileOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
+    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:5729105")
+
+    compileOnly fg.deobf("curse.maven:kotlin-for-forge-351264:7291067")
+    runtimeOnly fg.deobf("curse.maven:kotlin-for-forge-351264:7291067")
+
+    compileOnly fg.deobf("curse.maven:mega-cells-622112:6175008")
+    runtimeOnly fg.deobf("curse.maven:mega-cells-622112:6175008")
+
+    compileOnly fg.deobf("curse.maven:ae2-things-forge-609977:4616683")
+    runtimeOnly fg.deobf("curse.maven:ae2-things-forge-609977:4616683")
+
+    compileOnly fg.deobf("curse.maven:appliede-1009940:6092960")
+    runtimeOnly fg.deobf("curse.maven:appliede-1009940:6092960")
+
+    compileOnly fg.deobf("curse.maven:projecte-226410:4901949")
+    runtimeOnly fg.deobf("curse.maven:projecte-226410:4901949")
+
+    compileOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+    runtimeOnly fg.deobf("curse.maven:embeddium-908741:5681725")
+
+    compileOnly fg.deobf("curse.maven:jei-238222:7391695")
+    runtimeOnly fg.deobf("curse.maven:jei-238222:7391695")
+
+    compileOnly fg.deobf("curse.maven:project-expansion-579177:7247734")
+    runtimeOnly fg.deobf("curse.maven:project-expansion-579177:7247734")
 
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
